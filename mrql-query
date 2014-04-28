@@ -1,0 +1,105 @@
+
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=8" />
+
+<!--defaultCSS-->
+<title>mrql初级教程-概念、使用（一）</title>
+
+
+
+
+<style type="text/css" id="wiz_todo_style_id" wiz_link_version="01.00.04">.wiz-todo, .wiz-todo-img {width: 16px; height: 16px; cursor: default; padding: 0 10px 0 2px; vertical-align: -10%;-webkit-user-select: none;} .wiz-todo-label { display: inline-block; padding-top: 8px; padding-bottom: 8px; line-height: 1;} .wiz-todo-label-checked { text-decoration: line-through; color: #666;} .wiz-todo-label-unchecked {text-decoration: initial;} .wiz-todo-completed-info {padding-left: 44px; display: inline-block; } .wiz-todo-avatar { width:20px; height: 20px; vertical-align: -20%; margin-right:10px; border-radius: 2px;} .wiz-todo-account, .wiz-todo-dt { color: #666; }</style>
+
+
+<style type="text/css" id="wiz_custom_css">
+body
+{
+    font-family: "Microsoft YaHei UI","Microsoft YaHei",SimSun,"Segoe UI",Tahoma,Helvetica,Sans-Serif,"Microsoft YaHei", Georgia,Helvetica,Arial,sans-serif,宋体, PMingLiU,serif;
+    font-size: 10.5pt;
+    line-height: 1.5;
+}
+html, body
+{
+    
+    
+}
+h1 {
+    font-size:1.5em;
+    font-weight:bold;
+}
+h2 {
+    font-size:1.4em;
+    font-weight:bold;
+}
+h3 {
+    font-size:1.3em;
+    font-weight:bold;
+}
+h4 {
+    font-size:1.2em;
+    font-weight:bold;
+}
+h5 {
+    font-size:1.1em;
+    font-weight:bold;
+}
+h6 {
+    font-size:1.0em;
+    font-weight:bold;
+}
+img {
+    border:0;
+    max-width: 100%;
+}
+blockquote {
+    margin-top:0px;
+    margin-bottom:0px;
+}
+table {
+    border-collapse:collapse;
+    border:1px solid #bbbbbb;
+}
+td {
+    border-collapse:collapse;
+    border:1px solid #bbbbbb;
+}
+
+</style>
+<link id="syntaxhighlighter_css" rel="stylesheet" type="text/css" href="mrql初级教程-概念、使用（一）_files/shCoreDefault.css"></head>
+
+<body style="height: 610px;" spellcheck="false" ><div class="detail TextContent" id="p_fullcontent">
+									<h1><div style="font-family: 微软雅黑; font-size: 14px; font-weight: normal; line-height: 25px;"><font color="#ff0000" face="华文彩云"><span data-wiz-span="data-wiz-span" style="font-size: 14pt;"><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">以下是本人原创，如若转载和使用请注明转载地址。本博客信息切勿用于商业，可以个人使用，若喜欢我的博客，请关注我，谢谢！</span></span></font><a href="http://www.cnblogs.com/wang3680" style="font-size: 10.5pt; line-height: 1.8;"><b><span data-wiz-span="data-wiz-span" style="font-size: 18pt;">博客地址</span></b></a></div><br style="font-family: 微软雅黑; font-size: 14px; font-weight: normal; line-height: 25px;"><div style="font-family: 微软雅黑; font-size: 14px; font-weight: normal; line-height: 25px;"><font color="#ff0000" face="华文彩云"><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">感谢您支持我的<a href="http://www.cnblogs.com/wang3680/">博客</a>，我的动力是您的支持和关注！如若转载和使用请注明转载地址，并且请尊重劳动成果，谢谢！</span></font></div></h1><h1>MRQL简介</h1><p>MRQL (发音 miracle) 是一个查询处理和优化系统，适用于大规模分布式的数据分析。MRQL 
+(MapReduce Query Language) 是一个在计算机集群中对大规模数据的类 SQL 查询语言。MRQL 
+查询处理系统可使用如下三种模式评估 MRQL 查询：</p> 
+<ol> 
+ <li>使用 Hadoop 的 Map-Reduce 模式</li> 
+ <li>使用 Apache Hama 的 BSP 模式 (Bulk Synchronous Parallel mode) </li> 
+ <li>基于 Apache Spark 的 Spark 模式<br></li> 
+</ol><div><br></div><h1>MRQL一般的使用语法</h1><div><!--StartFragment--><h2 class="western" style="font-family: Simsun; line-height: normal;">Evaluating MRQL Queries Using Map-Reduce</h2><p style="font-family: Simsun; font-size: medium; line-height: normal;">Before deploying your MRQL queries on a Hadoop cluster, you can run these queries in memory on a small amount of data using the command:</p><div>mrql<span style="font-family: 'Microsoft YaHei UI'; font-size: 10.5pt; line-height: 1.5;">&nbsp; &nbsp;&nbsp;</span></div><div><span style="background-color: rgb(192, 255, 255);"><span style="font-size: 10.5pt; line-height: 1.5;"><font face="Microsoft YaHei UI">//</font>在Hadoop集群部署MRQL查询之前,您可以运行这些查询对少量的数据在内存中使用命令:</span></span></div><p style="font-family: Simsun; font-size: medium; line-height: normal;">which evaluates MRQL top-level commands and queries from the input until you type&nbsp;<tt style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Lucida Console', monospace; background-color: rgb(238, 238, 238); background-position: initial initial; background-repeat: initial initial;">quit</tt>. To run MRQL in Hadoop's standalone mode (single node on local files), use:</p><div>mrql -local</div><div><span style="background-color: rgb(192, 255, 255);">//该评估MRQL顶级命令和查询从输入类型,直到你放弃。MRQL运行Hadoop的独立模式(单一节点本地文件)</span></div><p style="font-family: Simsun; font-size: medium; line-height: normal;">To run MRQL in Hadoop's fully distributed mode (cluster mode), use:</p><div>mrql -dist</div><span style="background-color: rgb(192, 255, 255);">//MRQL运行Hadoop的完全分布式模式(集群模式)</span><br><div><!--StartFragment--><h3 class="western"><!--StartFragment--></h3><h2 class="western">Accessing the Data Sources</h2>
+<p><span style="font-weight: normal;"><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">The MRQL expression that makes a directory of raw files accessible
+to a query is: 
+</span></span></p>
+<div><span style="font-weight: normal;"><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">source(parser,path,...args)</span></span></div><p><span style="font-weight: normal;"><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">
+where </span><tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">path</span></tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;"> is the<span style="background-color: rgb(192, 255, 255);"> URI </span>of the directory that contains the
+source files (a string), </span><tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">parser</span></tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;"> is the name of the parser to
+parse the files, and </span><tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">args</span></tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;"> are various parameters specific to
+the parsing method. It returns a </span><tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">!bag(t)</span></tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">, for some </span><tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">t</span></tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">,
+that is, it returns a map-reduce type. Currently, there are four
+supported parsers: </span><tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">line</span></tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">, </span><tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">xml</span></tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">, </span><tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">json</span></tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">, and
+</span><tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">binary</span></tt><span data-wiz-span="data-wiz-span" style="font-size: 12pt;">, but it is easy to define and embed your own parser
+(explained later).</span></span></p><!--EndFragment--><h3 class="western">Parsing XML Documents</h3>
+<p><span data-wiz-span="data-wiz-span" style="font-size: 10.5pt;">The MRQL expression used for parsing an XML document is: 
+</span></p>
+<p><span data-wiz-span="data-wiz-span" style="font-size: 10.5pt;">source( xml, path, tags, xpath )</span></p><p><!--StartFragment--></p><p>For example, the following expression: 
+</p>
+<div><span style="background-color: rgb(192, 255, 255);">XMark = source(xml,"xmark.xml",{"person"});</span></div><p>
+binds the variable <tt>XMark</tt> to the result of parsing the
+document <tt>"xmark.xml"</tt> and returns a list of person
+elements. A more complex example is: 
+</p>
+<div><div><span style="background-color: rgb(192, 255, 255);">DBLP = source( xml, "dblp.xml", {"article","incollection","book","inproceedings"},</span></div><div><span style="background-color: rgb(192, 255, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xpath(.[year=2009]/title) )</span></div>下面是我自己做的例子：</div><div>说明：MRQL是在hadoop运行的情况下，完成工作的，而且我采用的是MRQL的第一种模式执行的，下面就MapReduce模式进行说明。</div><div><br></div><div>我定义一个xml文件叫1.xml</div><div><div id="highlighter_620740" class="syntaxhighlighter  xml" highlighter="brush: xml;toolbar:false;"><table border="0" cellpadding="0" cellspacing="0" class="noBorderTable"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2" style="height: 15px;">1</div><div class="line number2 index1 alt1" style="height: 15px;">2</div><div class="line number3 index2 alt2" style="height: 15px;">3</div><div class="line number4 index3 alt1" style="height: 15px;">4</div><div class="line number5 index4 alt2" style="height: 15px;">5</div><div class="line number6 index5 alt1" style="height: 15px;">6</div><div class="line number7 index6 alt2" style="height: 15px;">7</div><div class="line number8 index7 alt1" style="height: 15px;">8</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2" style="height: 15px;"><code class="xml plain">&lt;</code><code class="xml keyword">person</code><code class="xml plain">&gt;</code></div><div class="line number2 index1 alt1" style="height: 15px;"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">&lt;</code><code class="xml keyword">name</code><code class="xml plain">&gt;</code></div><div class="line number3 index2 alt2" style="height: 15px;"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">张三</code></div><div class="line number4 index3 alt1" style="height: 15px;"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">&lt;/</code><code class="xml keyword">name</code><code class="xml plain">&gt;</code></div><div class="line number5 index4 alt2" style="height: 15px;"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">&lt;</code><code class="xml keyword">age</code><code class="xml plain">&gt;</code></div><div class="line number6 index5 alt1" style="height: 15px;"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">20</code></div><div class="line number7 index6 alt2" style="height: 15px;"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">&lt;/</code><code class="xml keyword">age</code><code class="xml plain">&gt;</code></div><div class="line number8 index7 alt1" style="height: 15px;"><code class="xml plain">&lt;/</code><code class="xml keyword">person</code><code class="xml plain">&gt;</code></div></div></td></tr></tbody></table><span style="font-size: 10.5pt; line-height: 1.5;">将1.xml文件上传到hdfs目录下</span></div><p>hadoop fs -put ~/1.xml /user/hadoop/jl</p><p>查看jl目录</p><p><img src="mrql初级教程-概念、使用（一）_files/288885140.png" border="0"> </p></div><div>启动MRQL -dist<span style="font-size: 10.5pt; line-height: 1.5;">&nbsp;及执行source</span></div><div>source(xml,'hdfs://183.175.12.220:9010/user/hadoop/jl/1.xml',{"person"});</div><!--EndFragment--><p></p><!--EndFragment--></div><div style="color:gray"><img src="mrql初级教程-概念、使用（一）_files/289016906.png" border="0" name=""> </div><div>执行成功！</div><div>定义变量v用于存储</div><div>store v := source(xml,'hdfs://183.175.12.220:9010/user/hadoop/jl/1.xml',{"person"});</div><div><img src="mrql初级教程-概念、使用（一）_files/289140437.png" border="0"> </div><small><small>&nbsp;</small></small><!--EndFragment--></div><div>将得出的v进行dump输出，输出至一个txt文件中</div><div>dump 'hdfs://183.175.12.220:9010/user/hadoop/jl/a.txt' from v;</div><div><img src="mrql初级教程-概念、使用（一）_files/289232781.png" border="0"> </div><div><br></div><div>执行成功，现在可以去hdfs中查看此文件了</div><div><img src="mrql初级教程-概念、使用（一）_files/289343515.png" border="0"> </div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div></div>
+
+
+
+</body></html>
